@@ -1,0 +1,48 @@
+<div class="todos">
+  <button
+    *ngIf="todos.length === 0"
+    class="button"
+    (click)="setupInitialData()">
+    Setup initial data
+  </button>
+  <ul class="todos-list">
+    <li *ngFor="let todo of todos" class="todo" [ngClass]="{ done: todo.isDone }">
+      <div>
+        <span class="description">
+          <span *ngIf="todo.isDone">&#10004;</span>
+          {{ todo.todo }}
+        </span>
+        <span class="user">Assigned to: <b>{{ todo.username }}</b></span>
+      </div>
+      <div class="buttons">
+        <button *ngIf="!todo.isDone" class="button done-marker" (click)="markAsDone(todo._id)">Mark as done</button>
+        <button class="button delete-button" (click)="deleteTodo(todo._id)">Delete</button>
+      </div>
+    </li>
+  </ul>
+
+  <div class="form-wrapper">
+    <h2>Add new todo:</h2>
+    <form class="form">
+      <div class="input">
+        <label>
+          <span class="label">Todo:</span>
+          <input name="todo" autocomplete="off" [(ngModel)]="newTodo">
+        </label>
+      </div>
+      <div class="input">
+        <label>
+          <span class="label">Assigned to:</span>
+          <input name="username" autocomplete="off" [(ngModel)]="newUser">
+        </label>
+      </div>
+      <div class="input">
+        <label>
+          <span class="label">Done:</span>
+          <input type="checkbox" [(ngModel)]="isDone" name="isDone">
+        </label>
+      </div>
+      <button class="button" (click)="saveTodo()">Save Todo</button>
+    </form>
+  </div>
+</div>

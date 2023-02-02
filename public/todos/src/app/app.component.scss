@@ -1,0 +1,96 @@
+$c-grey: #626262;
+$c-green: #10a810;
+// $font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+$font-family: Helvetica, sans-serif;
+
+* {
+  -webkit-font-smoothing: antialiased;
+}
+
+.todos {
+  padding: 30px;
+  font-family: $font-family;
+  color: $c-grey;
+
+  &-list {
+    padding-left: 0;
+  }
+
+  .todo {
+    display: flex;
+    margin-bottom: 10px;
+    padding: 15px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+
+    &.done {
+      border-color: $c-green;
+      color: $c-green;
+    }
+  }
+
+  .description {
+    display: block;
+    font-size: 30px;
+    flex: 1 0 200px;
+    margin-bottom: 10px;
+  }
+
+  .user {
+    display: block;
+    font-size: 16px;
+    font-style: italic;
+    color: gray;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 20px;
+  }
+
+  .button {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: transparent;
+    white-space: nowrap;
+    border-width: 1px;
+    border-style: solid;
+    cursor: pointer;
+    font-family: $font-family;
+  }
+
+  .done-marker {
+    color: $c-green;
+    border: 1px solid $c-green;
+  }
+
+  .delete-button {
+    color: lightcoral;
+    border: 1px solid lightcoral;
+  }
+
+  .form-wrapper {
+    margin-top: 20px;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    
+    label {
+      display: flex; 
+      gap: 20px; 
+      font-size: 18px;
+      white-space: nowrap;
+
+      .label {
+        flex: 0 0 100px;
+      }
+    }
+  }
+}
