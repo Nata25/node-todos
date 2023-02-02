@@ -3,11 +3,10 @@ const app = express();
 const mongoose = require('mongoose');
 
 const config = require('./config');
-const setupTodos = require('./controller/setupController');
-const todosApi = require('./controller/apiController');
+const setupTodos = require('./controllers/setupController');
+const todosApi = require('./controllers/apiController');
 
-app.use('/assets', express.static(`${__dirname}/public`));
-app.set('view engine', 'ejs');
+app.use('/', express.static(`${__dirname}/client`));
 
 mongoose.connect(config.getDbConnectionString(), {dbName: 'node'});
 setupTodos(app);

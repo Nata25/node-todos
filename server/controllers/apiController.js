@@ -14,7 +14,6 @@ module.exports = function(app) {
   });
 
   app.get('/api/todos/users/:user', function(req, res) {
-    console.log('user');
     Todos.find({
       username: req.params.user,
     }, function(err, todos) {
@@ -45,7 +44,6 @@ module.exports = function(app) {
   });
 
   app.put('/api/todos', function(req, res) {
-    console.log(req.body);
     Todos.findByIdAndUpdate({ _id: req.body._id },
       {
         todo: req.body.todo,
