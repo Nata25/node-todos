@@ -1,0 +1,24 @@
+<div class="form-wrapper">
+  <h2>Add new todo:</h2>
+  <form class="form">
+    <div class="input">
+      <label>
+        <span class="label">Todo:</span>
+        <input name="todo" autocomplete="off" [(ngModel)]="newTodo">
+      </label>
+    </div>
+    <div class="input">
+      <label>
+        <span class="label">Assigned to:</span>
+        <input name="username" autocomplete="off" [(ngModel)]="newUser">
+      </label>
+    </div>
+    <div class="input">
+      <label>
+        <span class="label">Done:</span>
+        <input type="checkbox" [(ngModel)]="isDone" name="isDone">
+      </label>
+    </div>
+    <button class="button" (click)="saveTodo()">Save Todo</button>
+  </form>
+</div>

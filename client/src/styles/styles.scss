@@ -1,0 +1,20 @@
+@use "./vars.scss";
+
+* {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: vars.$font-family;
+}
+
+.button {
+  display: flex;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: transparent;
+  white-space: nowrap;
+  border-width: 1px;
+  border-style: solid;
+  cursor: pointer;
+}

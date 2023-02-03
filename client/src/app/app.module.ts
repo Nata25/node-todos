@@ -5,10 +5,16 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FormComponent } from './components/form/form.component';
+import { AddTodoComponent } from './components/add-todo/add-todo.component';
+import { TodoDetailsComponent } from './components/todo-details/todo-details.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FormComponent,
+    AddTodoComponent,
+    TodoDetailsComponent
   ],
   imports: [
     BrowserModule,

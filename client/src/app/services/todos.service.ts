@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { ITodo } from '../models/todo.interface';
@@ -9,6 +9,8 @@ import { ITodo } from '../models/todo.interface';
   providedIn: 'root'
 })
 export class TodosService {
+
+  $todos = new BehaviorSubject<ITodo[]>([]);
 
   constructor(
     private readonly http: HttpClient,
@@ -19,7 +21,11 @@ export class TodosService {
   }
 
   getTodos(): Observable<ITodo[]> {
-    return this.http.get<ITodo[]>(`${environment.API_URL}/api/todos`);
+    return this.http.get<ITodo[]>(`${environment.API_URL}/api/todos`).pipe(
+      tap(data => {
+        this.$todos.next(data);
+      }),
+    );
   }
 
   addNewTodo(todo: ITodo): Observable<ITodo> {

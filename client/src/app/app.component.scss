@@ -1,16 +1,14 @@
-$c-grey: #626262;
-$c-green: #10a810;
-// $font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-$font-family: Helvetica, sans-serif;
-
-* {
-  -webkit-font-smoothing: antialiased;
-}
+@use '../../src/styles/vars.scss' as vars;
 
 .todos {
+  display: flex;
   padding: 30px;
-  font-family: $font-family;
-  color: $c-grey;
+  font-family: vars.$font-family;
+  color: vars.$c-grey;
+
+  &-wrapper {
+    flex: 1 0 50%;
+  }
 
   &-list {
     padding-left: 0;
@@ -18,17 +16,57 @@ $font-family: Helvetica, sans-serif;
 
   .todo {
     display: flex;
+    flex-wrap: wrap;
     margin-bottom: 10px;
     padding: 15px;
     align-items: center;
     justify-content: space-between;
     gap: 30px;
-    border: 1px solid lightgray;
+    border: 1px solid vars.$c-lightgrey;
     border-radius: 5px;
-
+    
     &.done {
-      border-color: $c-green;
-      color: $c-green;
+      border-color: vars.$c-lightgreen;
+      color: vars.$c-green;
+    }
+    
+    &-data {
+      position: relative;
+      cursor: pointer;
+
+      &::before,
+      &::after {
+        position: absolute;
+        display: inline-block;
+        top: 50%;
+        border-top: 4px solid vars.$c-lightgrey;
+        border-right: 4px solid vars.$c-lightgrey;
+        transform-origin: center;
+        transform: translateY(-50%) rotate(45deg);
+        opacity: 0;
+        content: '';
+        transition: opacity 0.2s;
+      }
+      
+      &::before {
+        width: 10px;
+        height: 10px;
+        right: -30px;
+      }
+      
+      &::after {
+        right: -45px;
+        width: 8px;
+        height: 8px;
+        border-width: 3px;
+      }
+
+      &:hover {
+        &::before,
+        &::after {
+          opacity: 1;
+        }
+      }
     }
   }
 
@@ -51,46 +89,21 @@ $font-family: Helvetica, sans-serif;
     gap: 20px;
   }
 
-  .button {
-    padding: 5px 10px;
-    border-radius: 5px;
-    background: transparent;
-    white-space: nowrap;
-    border-width: 1px;
-    border-style: solid;
-    cursor: pointer;
-    font-family: $font-family;
-  }
-
   .done-marker {
-    color: $c-green;
-    border: 1px solid $c-green;
+    color: vars.$c-green;
+    border: 1px solid vars.$c-green;
   }
 
   .delete-button {
-    color: lightcoral;
-    border: 1px solid lightcoral;
+    color: vars.$c-red;
+    border: 1px solid vars.$c-red;
   }
 
-  .form-wrapper {
-    margin-top: 20px;
-  }
-
-  .form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    
-    label {
-      display: flex; 
-      gap: 20px; 
-      font-size: 18px;
-      white-space: nowrap;
-
-      .label {
-        flex: 0 0 100px;
-      }
-    }
+  .delete-icon {
+    width: 15px;
+    height: 15px;
+    object-fit: contain;
+    object-position: center;
+    color: vars.$c-red;
   }
 }

@@ -1,0 +1,22 @@
+.form-wrapper {
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  
+  label {
+    display: flex; 
+    gap: 20px; 
+    font-size: 18px;
+    white-space: nowrap;
+
+    .label {
+      flex: 0 0 100px;
+    }
+  }
+}
