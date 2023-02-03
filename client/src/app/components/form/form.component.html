@@ -1,24 +1,23 @@
 <div class="form-wrapper">
-  <h2>Add new todo:</h2>
-  <form class="form">
+  <form class="form" [formGroup]="todoForm">
     <div class="input">
       <label>
         <span class="label">Todo:</span>
-        <input name="todo" autocomplete="off" [(ngModel)]="newTodo">
+        <input autocomplete="off" formControlName="todo">
       </label>
     </div>
     <div class="input">
       <label>
         <span class="label">Assigned to:</span>
-        <input name="username" autocomplete="off" [(ngModel)]="newUser">
+        <input autocomplete="off" formControlName="username">
       </label>
     </div>
     <div class="input">
       <label>
         <span class="label">Done:</span>
-        <input type="checkbox" [(ngModel)]="isDone" name="isDone">
+        <input type="checkbox" formControlName="isDone">
       </label>
     </div>
-    <button class="button" (click)="saveTodo()">Save Todo</button>
+    <button class="button big save-button" (click)="saveTodo()">Save Todo</button>
   </form>
 </div>

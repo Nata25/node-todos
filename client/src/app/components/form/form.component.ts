@@ -1,42 +1,65 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Subscription, switchMap } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { filter, map, Subscription, switchMap } from 'rxjs';
 
 import { TodosService } from 'src/app/services/todos.service';
+import { ITodo } from '../../models/todo.interface';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class FormComponent implements OnDestroy {
-  newTodo = '';
-  newUser = '';
-  isDone = false;
+export class FormComponent implements OnInit, OnDestroy {
+  todoForm: FormGroup = new FormGroup({
+    todo: new FormControl(''),
+    username: new FormControl(''),
+    isDone: new FormControl(false),
+  });
 
-  subscription!: Subscription;
+  subscriptions: {
+    [key: string]: Subscription,
+  } = {};
 
   constructor(
     private readonly todoService: TodosService,
+    private readonly route: ActivatedRoute,
   ) { }
 
+  ngOnInit(): void {
+    this.subscriptions['route'] = this.route.params.pipe(
+      map(data => data['id']),
+      filter(id => Boolean(id)),
+      switchMap((id: string) => this.todoService.getTodoDetails(id)),
+    )
+      .subscribe((data: ITodo) => {
+        this.todoForm.patchValue({
+          todo: data.todo,
+          isDone: data.isDone,
+          username: data.username,
+        })
+      });
+  }
+
   ngOnDestroy(): void {
-    if (this.subscription) this.subscription.unsubscribe();
+    Object.keys(this.subscriptions).forEach(key => {
+      (this.subscriptions[key] as Subscription).unsubscribe();
+    });
   }
 
   saveTodo(): void {
-    if (this.subscription) this.subscription.unsubscribe();
+    if (this.subscriptions['saveTodo']) this.subscriptions['saveTodo'].unsubscribe();
 
-    this.subscription = this.todoService.addNewTodo({
+    this.subscriptions['saveTodo'] = this.todoService.addNewTodo({
       _id: -1,
-      username: this.newUser,
-      todo: this.newTodo,
-      isDone: this.isDone,
+      username: this.todoForm.controls['username'].value,
+      todo: this.todoForm.controls['todo'].value,
+      isDone: this.todoForm.controls['isDone'].value,
     }).pipe(
       switchMap(() => this.todoService.getTodos())
     ).subscribe(() => {
-      this.newTodo = '';
-      this.newUser = '';
-      this.isDone = false;
+      this.todoForm.reset();
     });
   }
 }

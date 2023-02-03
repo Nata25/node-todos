@@ -17,7 +17,12 @@ export class TodosService {
   ) { }
 
   setupInitialData(): Observable<ITodo[]> {
-    return this.http.get<ITodo[]>(`${environment.API_URL}/api/todos/setup`);
+    return this.http.get<ITodo[]>(`${environment.API_URL}/api/todos/setup`).pipe(
+      tap(data => {
+        console.log(data);
+        this.$todos.next(data);
+      })
+    );
   }
 
   getTodos(): Observable<ITodo[]> {
@@ -34,6 +39,10 @@ export class TodosService {
 
   updateTodo(todo: ITodo): Observable<ITodo> {
     return this.http.put<ITodo>(`${environment.API_URL}/api/todos`, todo);
+  }
+
+  getTodoDetails(id: string | number): Observable<ITodo> {
+    return this.http.get<ITodo>(`${environment.API_URL}/api/todos/${id}`);
   }
 
   deleteTodo(id: string | number): Observable<ITodo> {

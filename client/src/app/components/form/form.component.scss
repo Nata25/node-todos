@@ -1,7 +1,4 @@
-.form-wrapper {
-  margin-top: 20px;
-  padding: 10px;
-}
+@use 'src/styles/vars.scss';
 
 .form {
   display: flex;
@@ -18,5 +15,15 @@
     .label {
       flex: 0 0 100px;
     }
+  }
+
+  input {
+    height: 20px;
+  }
+
+  .save-button {
+    margin: 10px auto;
+    color: vars.$c-green;
+    border-color: vars.$c-green;
   }
 }

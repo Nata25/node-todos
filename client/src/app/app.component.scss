@@ -1,109 +1,43 @@
-@use '../../src/styles/vars.scss' as vars;
+@use 'src/styles/vars.scss';
 
 .todos {
   display: flex;
   padding: 30px;
+  gap: 30px;
   font-family: vars.$font-family;
   color: vars.$c-grey;
 
   &-wrapper {
     flex: 1 0 50%;
   }
+}
 
-  &-list {
-    padding-left: 0;
-  }
+.empty-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 310px;
 
-  .todo {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-    padding: 15px;
-    align-items: center;
-    justify-content: space-between;
-    gap: 30px;
-    border: 1px solid vars.$c-lightgrey;
-    border-radius: 5px;
-    
-    &.done {
-      border-color: vars.$c-lightgreen;
-      color: vars.$c-green;
-    }
-    
-    &-data {
-      position: relative;
-      cursor: pointer;
-
-      &::before,
-      &::after {
-        position: absolute;
-        display: inline-block;
-        top: 50%;
-        border-top: 4px solid vars.$c-lightgrey;
-        border-right: 4px solid vars.$c-lightgrey;
-        transform-origin: center;
-        transform: translateY(-50%) rotate(45deg);
-        opacity: 0;
-        content: '';
-        transition: opacity 0.2s;
-      }
-      
-      &::before {
-        width: 10px;
-        height: 10px;
-        right: -30px;
-      }
-      
-      &::after {
-        right: -45px;
-        width: 8px;
-        height: 8px;
-        border-width: 3px;
-      }
-
-      &:hover {
-        &::before,
-        &::after {
-          opacity: 1;
-        }
-      }
-    }
-  }
-
-  .description {
-    display: block;
-    font-size: 30px;
-    flex: 1 0 200px;
-    margin-bottom: 10px;
-  }
-
-  .user {
-    display: block;
-    font-size: 16px;
-    font-style: italic;
-    color: gray;
-  }
-
-  .buttons {
-    display: flex;
-    gap: 20px;
-  }
-
-  .done-marker {
-    color: vars.$c-green;
-    border: 1px solid vars.$c-green;
-  }
-
-  .delete-button {
-    color: vars.$c-red;
-    border: 1px solid vars.$c-red;
-  }
-
-  .delete-icon {
-    width: 15px;
-    height: 15px;
-    object-fit: contain;
-    object-position: center;
-    color: vars.$c-red;
+  .setup-button {
+    color: vars.$c-blue;
+    border-color: vars.$c-blue;
   }
 }
+
+.add-button {
+  border: 1px solid vars.$c-grey;
+  color: vars.$c-grey;
+}
+
+.add-link {
+  text-decoration: none;
+  font-weight: bold;
+  
+  &.active {
+    .add-button {
+      border-color: vars.$c-blue;
+      color: vars.$c-blue;
+    }
+  }
+}
+
