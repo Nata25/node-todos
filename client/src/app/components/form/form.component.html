@@ -18,6 +18,12 @@
         <input type="checkbox" formControlName="isDone">
       </label>
     </div>
+    <div class="input">
+      <label>
+        <span class="label">Attachment:</span>
+        <input #fileInput type="file" accept="text/plain" name="attachment">
+      </label>
+    </div>
     <button class="button big save-button" (click)="saveTodo()">Save Todo</button>
   </form>
 </div>

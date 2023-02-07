@@ -6,6 +6,14 @@
     </a>
   </div>
   <div class="form-wrapper">
-    <app-form></app-form>
+    <ng-container *ngIf="isEditMode; else viewMode">
+      <app-form [todo]="todo"></app-form>
+    </ng-container>
+    <ng-template #viewMode>
+      <div class="todo-details">
+        <h3>{{ todo?.todo }}</h3>
+        <p *ngIf="todo?.details">{{ todo?.details }}</p>
+      </div>
+    </ng-template>
   </div>
 </div>

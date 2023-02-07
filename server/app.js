@@ -8,7 +8,7 @@ const todosApi = require('./controllers/apiController');
 
 app.use('/', express.static(`${__dirname}/client`));
 
-mongoose.connect(config.getDbConnectionString(), {dbName: 'node'});
+mongoose.connect(...config.getDbConnectionParams());
 setupTodos(app);
 todosApi(app);
 

@@ -1,0 +1,18 @@
+**/node_modules
+**/.vscode
+**/npm-debug.log
+
+server/config/config.json
+server/uploads/
+client/.angular
+client/dist
+
+# Node
+
+npm-debug.log
+yarn-error.log
+
+# System files
+.DS_Store
+Thumbs.db
+
