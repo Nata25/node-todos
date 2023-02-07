@@ -1,17 +1,27 @@
 <div class="todo-details">
-  <h2>Todo details</h2>
-  <div class="close">
+  <h6>Todo details</h6>
+  <span class="close">
     <a routerLink="/" class="close-link">
       <img class="close-icon" src="/assets/close.svg">
     </a>
-  </div>
-  <div class="form-wrapper">
+  </span>
+  <div class="form-wrapper sidebar-content">
     <ng-container *ngIf="isEditMode; else viewMode">
       <app-form [todo]="todo"></app-form>
     </ng-container>
     <ng-template #viewMode>
       <div class="todo-details">
-        <h3>{{ todo?.todo }}</h3>
+        <h3 class="title">{{ todo?.todo }}</h3>
+        <p>Assignee:
+          <span class="username">
+            {{ todo?.username }}
+          </span>
+        </p>
+        <p>Status:
+          <span [ngClass]="{ green: todo?.isDone }">
+            {{ todo?.isDone ? 'done' : 'pending' }}
+          </span>
+        </p>
         <p *ngIf="todo?.details">{{ todo?.details }}</p>
       </div>
     </ng-template>

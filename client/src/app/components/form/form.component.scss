@@ -11,10 +11,15 @@
     gap: 20px; 
     font-size: 18px;
     white-space: nowrap;
+    flex-wrap: wrap;
 
     .label {
       flex: 0 0 100px;
     }
+  }
+
+  .input-wrapper {
+    width: 100%;
   }
 
   input {
@@ -22,7 +27,7 @@
   }
 
   .save-button {
-    margin: 10px auto;
+    margin-top: 10px;
     color: vars.$c-green;
     border-color: vars.$c-green;
   }

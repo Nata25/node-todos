@@ -9,7 +9,7 @@ const upload = multer({ dest: 'uploads/' });
 
 module.exports = function(app) {
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({extended: true}));
+  app.use(bodyParser.urlencoded({ extended: true }));
 
   app.get('/api/todos', function(req, res) {
     Todos.find(function(err, todos) {

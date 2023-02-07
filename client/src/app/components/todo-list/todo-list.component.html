@@ -1,13 +1,38 @@
 <ul class="todos-list">
-  <li *ngFor="let todo of todos" class="todo" [ngClass]="{ done: todo.isDone }">
-    <div class="todo-data" (click)="goToEditTodo(todo._id)">
-      <span class="description">
-        <span *ngIf="todo.isDone">&#10004;</span>
-        {{ todo.todo }}
-      </span>
-      <span class="user">Assigned to: <b>{{ todo.username }}</b></span>
-      <span class="status">Status: <b>{{ todo.isDone ? 'Done' : 'Pending' }}</b></span>
-    </div>
+  <li
+    *ngFor="let todo of todos"
+    [ngClass]="{ done: todo.isDone }"
+    class="todo"
+  >
+    <a
+      [routerLink]="['details/' + todo._id]"
+      routerLinkActive="active"
+      class="todo-link"
+    >
+      <div class="todo-data">
+        <span class="description">
+          <span *ngIf="todo.isDone">&#10004;</span>
+          {{ todo.todo }}
+        </span>
+        <span
+          *ngIf="todo.hasAttachment"
+          (click)="goToEditTodo(todo._id)"
+          class="file-link with-tooltip"
+        >
+          <img class="file-icon" src="/assets/paper-clip.svg"/>
+        </span>
+        <span class="info-row">
+          <span class="label">Assigned to:</span>
+          <span class="value">{{ todo.username }}</span>
+        </span>
+        <span class="info-row">
+          <span class="label">Status:</span>
+          <span class="value status" [ngClass]="{ green: todo.isDone }">
+            {{ todo.isDone ? 'done' : 'pending' }}
+          </span>
+        </span>
+      </div>
+    </a>
     <div class="buttons">
       <button
         *ngIf="!todo.isDone"

@@ -1,28 +1,50 @@
 @use 'src/styles/vars.scss';
 
 .todos-list {
-  padding-left: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .todo {
   display: flex;
-  flex-wrap: wrap;
-  margin-bottom: 10px;
-  padding: 15px;
-  align-items: center;
   justify-content: space-between;
-  gap: 30px;
+  align-items: center;
+  margin-bottom: 10px;
   border: 1px solid vars.$c-lightgrey;
+  padding-right: 15px;
   border-radius: 5px;
-  
+  cursor: pointer;
+  list-style-type: none;
+
   &.done {
-    border-color: vars.$c-lightgreen;
     color: vars.$c-green;
+  }
+
+  &:hover {
+    .buttons {
+      opacity: 1;
+    }
+  }
+
+  &-link {
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 20px 15px 20px 60px;
+    align-items: center;
+    justify-content: space-between;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+
+    &.active {
+      border-color: vars.$c-green;
+    }
   }
   
   &-data {
     position: relative;
-    cursor: pointer;
 
     &::before,
     &::after {
@@ -35,54 +57,93 @@
       transform: translateY(-50%) rotate(45deg);
       opacity: 0;
       content: '';
-      transition: opacity 0.2s;
+      transition: opacity 0.1s;
     }
     
     &::before {
+      left: -35px;
       width: 10px;
       height: 10px;
-      right: -30px;
     }
     
     &::after {
-      right: -45px;
+      left: -45px;
       width: 8px;
       height: 8px;
       border-width: 3px;
     }
 
-    &:hover {
-      &::before,
-      &::after {
-        opacity: 1;
-      }
+    .info-row {
+      display: flex;
+      gap: 5px;
+      align-items: baseline;
+    }
+
+    .label {
+      display: block;
+      margin-bottom: 5px;
+      color: vars.$c-grey;
+      font-size: 16px;
+    }
+
+    .value {
+      font-size: 14px;
+      color: vars.$c-grey;
+      font-weight: 600;
+    }
+  }
+
+  &:hover {
+    .todo-data::before,
+    .todo-data::after {
+      opacity: 1;
     }
   }
 }
 
 .description {
+  position: relative;
   display: block;
   font-size: 30px;
   flex: 1 0 200px;
   margin-bottom: 10px;
 }
 
-.user,
-.status {
-  display: block;
-  font-size: 16px;
+.file-link {
+  position: absolute;
+  right: 65px;
+  top: 0;
+  display: inline-block;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+
+  &::before {
+    content: 'Details attached';
+  }
+}
+
+.file-icon {
+  width: 20px;
+  height: 20px;
   color: vars.$c-grey;
 }
 
 .buttons {
+  flex: 0 0 200px;
   display: flex;
+  justify-content: flex-end;
   gap: 20px;
+  opacity: 0;
+  transition: opacity 0.1s;
 }
 
 .done-marker {
   color: vars.$c-grey;
-  border: 1px solid vars.$c-lightgrey;
+  border: 0;
   opacity: 0.7;
+  font-size: 18px;
   transition: opacity 0.2s;
 
   &:hover {
@@ -96,7 +157,7 @@
 
 .delete-button {
   color: vars.$c-red;
-  border: 1px solid vars.$c-red;
+  border: 0;
 
   &::before {
     content: 'Delete Todo';
@@ -104,8 +165,8 @@
 }
 
 .delete-icon {
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   object-fit: contain;
   object-position: center;
   color: vars.$c-red;

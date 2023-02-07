@@ -1,24 +1,27 @@
-<div class="todos">
-  <div class="todos-wrapper">
-    <a routerLink="/add" class="add-link" routerLinkActive="active">
-      <button class="button big add-button">
+<div class="main">
+  <div class="header">
+    <a routerLink="/add" class="add-link">
+      <button class="button add-button">
         Add New Todo
       </button>
     </a>
-
-    <ng-container *ngIf="todos.length > 0; else empty">
-      <app-todo-list></app-todo-list>
-    </ng-container>
   </div>
-  <div class="sidebar">
-    <router-outlet></router-outlet>
+  <div class="todos">
+    <div class="todos-wrapper">
+      <ng-container *ngIf="todos.length > 0; else empty">
+        <app-todo-list></app-todo-list>
+      </ng-container>
+    </div>
+    <div class="sidebar">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>
 
 <ng-template #empty>
   <div class="empty-view">
     <button
-      class="button big setup-button"
+      class="button setup-button"
       (click)="setupInitialData()">
       Setup initial data
     </button>

@@ -1,29 +1,29 @@
 <div class="form-wrapper">
   <form class="form" [formGroup]="todoForm">
-    <div class="input">
+    <div class="input-wrapper">
       <label>
         <span class="label">Todo:</span>
         <input autocomplete="off" formControlName="todo">
       </label>
     </div>
-    <div class="input">
+    <div class="input-wrapper">
       <label>
         <span class="label">Assigned to:</span>
         <input autocomplete="off" formControlName="username">
       </label>
     </div>
-    <div class="input">
+    <div class="input-wrapper">
       <label>
         <span class="label">Done:</span>
         <input type="checkbox" formControlName="isDone">
       </label>
     </div>
-    <div class="input">
+    <div class="input-wrapper">
       <label>
         <span class="label">Attachment:</span>
         <input #fileInput type="file" accept="text/plain" name="attachment">
       </label>
     </div>
-    <button class="button big save-button" (click)="saveTodo()">Save Todo</button>
+    <button class="button save-button" (click)="saveTodo()">Save Todo</button>
   </form>
 </div>

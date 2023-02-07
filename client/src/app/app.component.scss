@@ -1,15 +1,26 @@
 @use 'src/styles/vars.scss';
 
+.main {
+  padding: 20px;
+}
+
+.header {
+  padding-bottom: 20px;
+}
+
 .todos {
   display: flex;
-  padding: 30px;
-  gap: 30px;
+  justify-content: space-between;
   font-family: vars.$font-family;
   color: vars.$c-grey;
+}
 
-  &-wrapper {
-    flex: 1 0 50%;
-  }
+.todos-wrapper {
+  flex: 1 0 50%;
+}
+
+.sidebar {
+  padding: 20px 15px 20px 30px;
 }
 
 .empty-view {
@@ -25,19 +36,12 @@
 }
 
 .add-button {
-  border: 1px solid vars.$c-grey;
-  color: vars.$c-grey;
+  border: 0;
+  background-color: vars.$c-mediumgreen;
+  color: vars.$c-white;
 }
 
 .add-link {
+  display: inline-block;
   text-decoration: none;
-  font-weight: bold;
-  
-  &.active {
-    .add-button {
-      border-color: vars.$c-blue;
-      color: vars.$c-blue;
-    }
-  }
 }
-
