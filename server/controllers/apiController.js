@@ -31,12 +31,14 @@ module.exports = function(app) {
     Todos.findById({
       _id: req.params.todoID,
     }).then(data => {
+      console.log('data', data);
       const todoDetails = {
         todo: data.todo,
         isDone: data.isDone,
         hasAttachment: data.hasAttachment,
         username: data.username,
       };
+      console.log(todoDetails);
       if (data.hasAttachment) {
         Attachments.findOne({
           todoID: data._id,

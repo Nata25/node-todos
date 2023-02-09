@@ -5,3 +5,17 @@
 .username {
   font-weight: bold;
 }
+
+.edit-button {
+  padding-left: 0;
+  border: 0;
+
+  &::before {
+    content: 'Edit Todo';
+  }
+}
+
+.edit-icon {
+  width: 25px;
+  height: 25px;
+}

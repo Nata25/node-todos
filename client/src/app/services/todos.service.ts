@@ -26,6 +26,7 @@ export class TodosService {
   }
 
   getTodos(): Observable<ITodo[]> {
+    console.log('get todos');
     return this.http.get<ITodo[]>(`${environment.API_URL}/api/todos`).pipe(
       tap(data => {
         this.$todos.next(data);
@@ -40,7 +41,7 @@ export class TodosService {
     formData.append('isDone', todo.isDone.toString());
     formData.append('attachment', todo.attachment);
     if (todo._id) {
-      // update existing todo
+      // update existing todo from form
       formData.append('_id', (todo._id as string));
       return this.http.put<ITodo>(`${environment.API_URL}/api/todos`, formData);
     } else {
@@ -49,6 +50,7 @@ export class TodosService {
     }
   }
 
+  // simple update, no form
   updateTodo(todoID: string, params: { [key: string]: unknown }): Observable<ITodo> {
     return this.http.put<ITodo>(`${environment.API_URL}/api/todos/${todoID}`, params);
   }

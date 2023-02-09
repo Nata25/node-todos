@@ -23,7 +23,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .with-tooltip {
   position: relative;
-
+  
   &::before {
     position: absolute;
     top: -22px;
@@ -31,6 +31,7 @@ h1, h2, h3, h4, h5, h6 {
     padding: 4px 7px;
     opacity: 0;
     font-size: 12px;
+    text-transform: none;
     color: vars.$c-white;
     border-radius: 3px;
     background-color: vars.$c-grey;

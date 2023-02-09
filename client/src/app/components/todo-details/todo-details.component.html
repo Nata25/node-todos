@@ -7,7 +7,7 @@
   </span>
   <div class="form-wrapper sidebar-content">
     <ng-container *ngIf="isEditMode; else viewMode">
-      <app-form [todo]="todo"></app-form>
+      <app-form [todo]="todo" (closed)="isEditMode = false"></app-form>
     </ng-container>
     <ng-template #viewMode>
       <div class="todo-details">
@@ -23,6 +23,9 @@
           </span>
         </p>
         <p *ngIf="todo?.details">{{ todo?.details }}</p>
+        <button class="button edit-button with-tooltip" (click)="isEditMode = true">
+          <img class="edit-icon" src="/assets/edit.svg" />
+        </button>
       </div>
     </ng-template>
   </div>
