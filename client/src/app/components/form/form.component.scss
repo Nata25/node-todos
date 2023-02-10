@@ -7,9 +7,10 @@
   gap: 10px;
   
   label {
-    display: flex; 
+    display: flex;
+    align-items: center;
     gap: 20px; 
-    font-size: 18px;
+    font-size: 14px;
     white-space: nowrap;
     flex-wrap: wrap;
 
@@ -24,6 +25,12 @@
 
   input {
     height: 22px;
+  }
+
+  textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    font-family: vars.$font-family;
   }
 
   .save-button {

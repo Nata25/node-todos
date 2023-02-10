@@ -6,18 +6,18 @@
     </a>
   </span>
   <div class="form-wrapper sidebar-content">
+    <h3 class="title">{{ todo?.todo }}</h3>
     <ng-container *ngIf="isEditMode; else viewMode">
       <app-form [todo]="todo" (closed)="isEditMode = false"></app-form>
     </ng-container>
     <ng-template #viewMode>
       <div class="todo-details">
-        <h3 class="title">{{ todo?.todo }}</h3>
-        <p>Assignee:
+        <p class="option">Assignee:
           <span class="username">
             {{ todo?.username }}
           </span>
         </p>
-        <p>Status:
+        <p class="option">Status:
           <span [ngClass]="{ green: todo?.isDone }">
             {{ todo?.isDone ? 'done' : 'pending' }}
           </span>

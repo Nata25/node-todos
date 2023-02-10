@@ -40,6 +40,9 @@ export class TodosService {
     formData.append('todo', todo.todo);
     formData.append('isDone', todo.isDone.toString());
     formData.append('attachment', todo.attachment);
+    if (todo.details) {
+      formData.append('details', todo.details);
+    }
     if (todo._id) {
       // update existing todo from form
       formData.append('_id', (todo._id as string));

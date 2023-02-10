@@ -15,4 +15,5 @@ export interface ITodoDetails extends ITodoBase {
 
 export interface ITodoForm extends ITodoBase {
   attachment: File,
+  details?: string,
 }

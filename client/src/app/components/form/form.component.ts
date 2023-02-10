@@ -22,6 +22,7 @@ export class FormComponent extends SubscriptionsComponent implements OnInit, OnC
     todo: new FormControl(''),
     username: new FormControl(''),
     isDone: new FormControl(false),
+    details: new FormControl(''),
   });
 
   constructor(
@@ -31,22 +32,24 @@ export class FormComponent extends SubscriptionsComponent implements OnInit, OnC
 
   ngOnInit(): void {
     if (this.todo) {
-      const { todo, isDone, username } = this.todo;
+      const { todo, isDone, username, details } = this.todo;
       this.todoForm.patchValue({
         todo,
         isDone,
         username,
+        details,
       });
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['todo'] && changes['todo'].currentValue) {
-      const { todo, isDone, username } = changes['todo'].currentValue;
+      const { todo, isDone, username, details } = changes['todo'].currentValue;
       this.todoForm.patchValue({
         todo,
         isDone,
         username,
+        details,
       });
     }
   }
@@ -58,6 +61,7 @@ export class FormComponent extends SubscriptionsComponent implements OnInit, OnC
       username: this.todoForm.controls['username'].value,
       todo: this.todoForm.controls['todo'].value,
       isDone: this.todoForm.controls['isDone'].value,
+      details: this.todoForm.controls['details'].value,
       attachment: this.fileInput.nativeElement.files[0],
     }).pipe(
       switchMap(() => this.todoService.getTodos())

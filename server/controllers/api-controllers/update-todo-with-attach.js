@@ -9,8 +9,8 @@ module.exports = function(app, upload) {
       todo: {},
       attachment: {},
     };
-    const { todo, username, isDone, _id } = req.body;
-    const hasAttachment = Boolean(req.file);
+    const { todo, username, isDone, _id, details } = req.body;
+    const hasAttachment = Boolean(req.file) || Boolean(details);
     Todos.findByIdAndUpdate({ _id }, {
       todo,
       username,
@@ -19,9 +19,6 @@ module.exports = function(app, upload) {
     })
     .then(data => {
       todoDTO.todo = data;
-      if (!req.file) {
-        return;
-      }
       return Attachments.findOne({ todoID: data._id });
     })
     .then(attachmentObj => {
@@ -53,10 +50,30 @@ module.exports = function(app, upload) {
         return new Promise(function(resolve, reject) {
           fs.readFile(req.file.path, function(err, file) {
             if (err) reject(err);
-            attachmentObj.attachment = file.toString();
+            attachmentObj.attachment = file;
+            attachmentObj.metadata.originalname = req.file.originalname;
+            attachmentObj.metadata.size = req.file.size;
+            attachmentObj.metadata.path = req.file.path;
             resolve(attachmentObj);
           });
         });
+      } else if (attachmentObj !== null && !req.file) {
+        /* NOTE: todo has attachment and no new file was uploaded when editing:
+        need to compare existing text with text from req (details textarea)
+        and if they differ, replace content of attachment with new text */
+        if (attachmentObj.attachment.toString('utf-8') !== details) {
+          return new Promise(function(resolve, reject) {
+            fs.writeFile(attachmentObj.metadata.path, details, {}, function(err) {
+              if (err) reject(err);
+              fs.stat(attachmentObj.metadata.path, function (err, stats) {
+                if (err) reject(err);
+                attachmentObj.metadata.size = stats.size;
+                attachmentObj.attachment = details;
+                resolve(attachmentObj);
+              });
+            });
+          })
+        }
       } else return null; // we don't work with files in this case;
     })
     .then(result => {
