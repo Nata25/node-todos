@@ -3,8 +3,8 @@ const app = express();
 const mongoose = require('mongoose');
 
 const config = require('./config');
-const setupTodos = require('./controllers/setupController');
-const todosApi = require('./controllers/apiController');
+const setupTodos = require('./controllers/setup-controller');
+const todosApi = require('./controllers/api-controllers');
 
 app.use('/', express.static(`${__dirname}/client`));
 

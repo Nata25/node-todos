@@ -1,4 +1,4 @@
-const Todos = require('../models/todoModel');
+const Todos = require('../models/todo-model');
 const staredTodos = require('../data/todos-seed');
 
 module.exports = function (app) {

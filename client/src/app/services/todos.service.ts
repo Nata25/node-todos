@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ITodo, ITodoDetails, ITodoForm } from '../models/todo.interface';
 import { IAttachment } from '../models/attachment.interface';
+import { ITodoWithAttachmentDTO } from '../models/todo-with-attachment-dto.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,6 @@ export class TodosService {
   }
 
   getTodos(): Observable<ITodo[]> {
-    console.log('get todos');
     return this.http.get<ITodo[]>(`${environment.API_URL}/api/todos`).pipe(
       tap(data => {
         this.$todos.next(data);
@@ -34,7 +34,7 @@ export class TodosService {
     );
   }
 
-  saveTodo(todo: ITodoForm): Observable<ITodo> {
+  saveTodo(todo: ITodoForm): Observable<ITodoWithAttachmentDTO> {
     const formData = new FormData();
     formData.append('username', todo.username);
     formData.append('todo', todo.todo);
@@ -43,10 +43,10 @@ export class TodosService {
     if (todo._id) {
       // update existing todo from form
       formData.append('_id', (todo._id as string));
-      return this.http.put<ITodo>(`${environment.API_URL}/api/todos`, formData);
+      return this.http.put<ITodoWithAttachmentDTO>(`${environment.API_URL}/api/todos`, formData);
     } else {
       // add new todo
-      return this.http.post<ITodo>(`${environment.API_URL}/api/todos`, formData);
+      return this.http.post<ITodoWithAttachmentDTO>(`${environment.API_URL}/api/todos`, formData);
     }
   }
 
