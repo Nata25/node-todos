@@ -10,8 +10,8 @@
       class="todo-link"
     >
       <div class="todo-data">
-        <span class="description">
-          <span *ngIf="todo.isDone">&#10004;</span>
+        <span class="todo-label">
+          <span *ngIf="todo.isDone">&#x2713;</span>
           {{ todo.todo }}
         </span>
         <span
@@ -39,7 +39,7 @@
         class="button done-marker with-tooltip"
         (click)="markAsDone(todo._id)"
       >
-        <span>&#10004;</span>
+        <span>&#x2713;</span>
       </button>
       <button class="button delete-button with-tooltip" (click)="deleteTodo(todo._id)">
         <img class="delete-icon" src="/assets/trash.svg"/>

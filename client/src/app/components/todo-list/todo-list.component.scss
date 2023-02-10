@@ -11,7 +11,6 @@
   align-items: center;
   margin-bottom: 10px;
   border: 1px solid vars.$c-lightgrey;
-  padding-right: 15px;
   border-radius: 5px;
   cursor: pointer;
   list-style-type: none;
@@ -31,7 +30,7 @@
     flex-grow: 1;
     flex-wrap: wrap;
     gap: 30px;
-    padding: 20px 15px 20px 60px;
+    padding: 11px 15px 11px 60px;
     align-items: center;
     justify-content: space-between;
     color: inherit;
@@ -40,6 +39,10 @@
 
     &.active {
       border-color: vars.$c-green;
+    }
+
+    &:hover {
+      background-color: vars.$c-lightgrey;
     }
   }
   
@@ -51,8 +54,8 @@
       position: absolute;
       display: inline-block;
       top: 50%;
-      border-top: 4px solid vars.$c-lightgrey;
-      border-right: 4px solid vars.$c-lightgrey;
+      border-top: 3px solid vars.$c-grey;
+      border-right: 3px solid vars.$c-grey;
       transform-origin: center;
       transform: translateY(-50%) rotate(45deg);
       opacity: 0;
@@ -62,15 +65,15 @@
     
     &::before {
       left: -35px;
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
     }
     
     &::after {
-      left: -45px;
-      width: 8px;
-      height: 8px;
-      border-width: 3px;
+      left: -40px;
+      width: 5px;
+      height: 5px;
+      border-width: 2px;
     }
 
     .info-row {
@@ -83,7 +86,7 @@
       display: block;
       margin-bottom: 5px;
       color: vars.$c-grey;
-      font-size: 16px;
+      font-size: 12px;
     }
 
     .value {
@@ -101,10 +104,10 @@
   }
 }
 
-.description {
+.todo-label {
   position: relative;
   display: block;
-  font-size: 30px;
+  font-size: 24px;
   flex: 1 0 200px;
   margin-bottom: 10px;
 }
@@ -131,9 +134,10 @@
 }
 
 .buttons {
-  flex: 0 0 200px;
+  flex: 0 0 60px;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
   gap: 20px;
   opacity: 0;
   transition: opacity 0.1s;

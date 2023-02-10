@@ -5,6 +5,7 @@
 }
 
 body {
+  margin: 0;
   font-family: vars.$font-family;
 }
 
@@ -26,18 +27,20 @@ h1, h2, h3, h4, h5, h6 {
   
   &::before {
     position: absolute;
-    top: -22px;
-    left: 50%;
+    top: 50%;
+    left: 15px;
     padding: 4px 7px;
     opacity: 0;
     font-size: 12px;
+    font-weight: normal;
     text-transform: none;
     color: vars.$c-white;
     border-radius: 3px;
     background-color: vars.$c-grey;
-    transform: translateX(-50%);
+    transform: translateX(-100%) translateY(-50%);
     transition: opacity 0.2s;
     white-space: nowrap;
+    letter-spacing: 0.2px;
   }
 
   &:hover::before {
@@ -64,9 +67,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .close {
-  position: absolute;
-  top: -65px;
-  right: 0;
+  position: fixed;
+  display: inline-flex;
+  top: 10px;
+  right: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: vars.$c-white;
+  border-radius: 20px;
+  box-shadow: 0 0 5px 3px vars.$c-lightgrey;
+  z-index: 1;
 
   &-link {
     display: inline-block;
