@@ -31,20 +31,20 @@ module.exports = function(app) {
     Todos.findById({
       _id: req.params.todoID,
     }).then(data => {
-      console.log('data', data);
       const todoDetails = {
         todo: data.todo,
         isDone: data.isDone,
         hasAttachment: data.hasAttachment,
         username: data.username,
       };
-      console.log(todoDetails);
       if (data.hasAttachment) {
         Attachments.findOne({
           todoID: data._id,
         }, function (err, result) {
           if (err) throw err;
-          todoDetails.details = result.attachment.toString();
+          if (result) {
+            todoDetails.details = result.attachment.toString();
+          } else todoDetails.details = '[Attachment was deleted]';
           res.send(todoDetails);
         });
       } else {
@@ -59,7 +59,6 @@ module.exports = function(app) {
 
   app.post('/api/todos', upload.single('attachment'), function(req, res) {
     const { todo, username, isDone } = req.body;
-    let savedTodo = {};
     const newTodo = Todos({
       todo,
       username,
@@ -77,10 +76,6 @@ module.exports = function(app) {
         fs.readFile(path, async function(err, file) {
           if (err) throw err;
           const details = file.toString('utf-8');
-          savedTodo = {
-            ...savedTodo,
-            details,
-          }
           const newAttachment = Attachments({
             todoID: data._id,
             metadata: {
@@ -103,27 +98,65 @@ module.exports = function(app) {
 
   app.put('/api/todos', upload.single('attachment'), function(req, res) {
     const { todo, username, isDone, _id } = req.body;
+    const hasAttachment = Boolean(req.file);
     Todos.findByIdAndUpdate({ _id },
       {
         todo,
         username,
         isDone,
-      }, function(err, result) {
-      if (err) throw err;
-      res.send(result);
+        hasAttachment,
+      }).then(data => {
+      if (!req.file) {
+        res.send(data);
+        return;
+      }
+      return Attachments.findOne({ todoID: data._id });
+    }).then(data => {
+      // if there's attachment associated with todo
+      if (data) {
+        return data;
+      }
+      console.log('no file found');
+      const { path, originalname, encoding, mimetype, size } = req.file;
+      return new Attachments({
+        todoID: _id,
+        metadata: {
+          originalname,
+          encoding,
+          mimetype,
+          path,
+          size,
+        },
+        attachment: '', // will be done on the next step
+      });
+    }).then(attachmentObj => {
+      return new Promise(function(resolve, reject) {
+        fs.readFile(req.file.path, function(err, file) {
+          if (err) reject(err);
+          attachmentObj.attachment = file.toString();
+          resolve(attachmentObj);
+        });
+      }).then(attachmentObj => {
+        return attachmentObj.save();
+      })
+      .then(data => {
+        res.send(data);
+      })
+      .catch(e => {
+        throw e;
+      });
     });
   });
 
   app.put('/api/todos/:todoID', async function(req, res) {
     const _id = req.params.todoID;
-    const { todo, username, hasAttachment, isDone } = req.body;
+    const { todo, username, isDone } = req.body;
     try {
       return await Todos.findById({ _id })
       .then(data => {
         data.todo = todo || data.todo;
         data.username = username || data.username;
         data.isDone = isDone || data.isDone;
-        data.hasAttachment = hasAttachment || data.hasAttachment;
         data.save(function(err, result) {
           if (err) throw err;
           res.send(result);
@@ -149,6 +182,6 @@ module.exports = function(app) {
     }, function(err, result) {
       if (err) throw err;
       res.send(result);
-    })
+    });
   });
 }
