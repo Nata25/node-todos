@@ -35,13 +35,13 @@ module.exports = function(app, upload) {
             path,
             size,
           },
-          attachment: '' // will be added on the next chain step
+          attachment: '',
         });
         return new Promise(function(resolve, reject) {
           fs.readFile(req.file.path, function(err, file) {
             if (err) reject(err);
             newAttachment.attachment = file.toString();
-            resolve(attachmentObj);
+            resolve(newAttachment);
           });
         });
       } else if (attachmentObj !== null && req.file) {
