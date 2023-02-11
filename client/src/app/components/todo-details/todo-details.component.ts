@@ -44,10 +44,22 @@ export class TodoDetailsComponent extends SubscriptionsComponent implements OnIn
           this.router.navigate(['/']);
         }
         // update todo details
-        return this.todoService.getTodoDetails(this.todoID)
+        return this.todoService.getTodoDetails(this.todoID);
       }),
     ).subscribe(data => {
       this.todo = data;
     });
+  }
+
+  deleteAttachment(): void {
+    if (this.todo) {
+      this.subscriptions['deleteAttachment'] = this.todoService.deleteAttachmentByTodoID(this.todo._id as string).pipe(
+        switchMap(() => this.todoService.getTodos()),
+        switchMap(() => this.todoService.getTodoDetails(this.todoID)),
+      )
+        .subscribe(todoDetails => {
+          this.todo = todoDetails;
+        });
+    }
   }
 }

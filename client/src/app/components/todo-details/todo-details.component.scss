@@ -23,3 +23,29 @@
   width: 25px;
   height: 25px;
 }
+
+.filename {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+
+  .label {
+    font-weight: bold;
+  }
+}
+
+.delete-button {
+  border: 0;
+
+  &::before {
+    content: 'Delete attachment';
+  }
+}
+
+.delete-icon {
+  width: 15px;
+  height: 15px;
+  object-fit: contain;
+  object-position: center;
+}

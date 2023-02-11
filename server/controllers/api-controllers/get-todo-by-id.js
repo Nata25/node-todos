@@ -3,6 +3,7 @@ const Attachments = require('../../models/attachment-model');
 
 module.exports = function(app) {
   app.get('/api/todos/:todoID', function(req, res) {
+    // NOTE: todoDetails implements ITodoDetails interface
     let todoDetails = {};
     Todos.findById({
       _id: req.params.todoID,
@@ -24,15 +25,16 @@ module.exports = function(app) {
           todoID: data._id,
         });
       } else {
-        return { attachment: '' };
+        return Attachments({ attachment: '' });
       }
     })
-    .then(result => {
-      if (result) {
-        todoDetails.details = result.attachment.toString();
-      } else if (result === null) {
+    .then(attachment => {
+      if (attachment) {
+        todoDetails.details = attachment.attachment.toString();
+        todoDetails.originalFileName = attachment.metadata.originalname;
+      } else if (attachment === null) {
         todoDetails.details = '[Attachment was deleted]';
-      } else return;
+      };
       res.send(todoDetails);
     })
     .catch(e => {

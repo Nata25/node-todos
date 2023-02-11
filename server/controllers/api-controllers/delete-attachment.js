@@ -2,11 +2,13 @@ const Todos = require('../../models/todo-model');
 const Attachments = require('../../models/attachment-model');
 
 module.exports = function(app) {
-  app.delete('/api/todos/:todoID', function(req, res) {
+  app.delete('/api/attachments/:todoID', function(req, res) {
     const todoID = req.params.todoID;
-    Todos.findByIdAndDelete({ _id: todoID })
+    Attachments.findOneAndDelete({ todoID })
       .then(() => {
-        return Attachments.findOneAndDelete({ todoID })
+        return Todos.findOneAndUpdate({ _id: todoID }, {
+          hasAttachment: false,
+        })
       })
       .then(result => {
         res.send(result);

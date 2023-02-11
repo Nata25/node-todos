@@ -9,6 +9,7 @@ const createNewTodo = require('./create-new-todo');
 const updateTodo = require('./update-todo');
 const updateTodoWithAttach = require('./update-todo-with-attach');
 const deleteTodo = require('./delete-todo');
+const deleteAttachment = require('./delete-attachment');
 
 const upload = multer({ dest: 'uploads/' });
 
@@ -23,4 +24,5 @@ module.exports = function(app) {
   createNewTodo(app, upload);
   updateTodoWithAttach(app, upload);
   deleteTodo(app);
+  deleteAttachment(app);
 }

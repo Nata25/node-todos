@@ -22,7 +22,15 @@
             {{ todo?.isDone ? 'done' : 'pending' }}
           </span>
         </p>
-        <p *ngIf="todo?.details">{{ todo?.details }}</p>
+        <ng-container *ngIf="todo?.details">
+          <p class="filename option">Original attachment file name:
+            <span class="label">{{ todo?.originalFileName }}</span>
+            <button class="button delete-button with-tooltip" (click)="deleteAttachment()">
+              <img class="delete-icon" src="/assets/trash.svg"/>
+            </button>
+          </p>
+          <p>{{ todo?.details }}</p>
+        </ng-container>
         <button class="button edit-button with-tooltip" (click)="isEditMode = true">
           <img class="edit-icon" src="/assets/edit.svg" />
         </button>

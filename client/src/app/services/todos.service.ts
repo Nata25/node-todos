@@ -69,4 +69,8 @@ export class TodosService {
   getAttachmentByTodoID(id: string): Observable<IAttachment> {
     return this.http.get<IAttachment>(`${environment.API_URL}/api/attachments/${id}`);
   }
+
+  deleteAttachmentByTodoID(id: string): Observable<unknown> {
+    return this.http.delete(`${environment.API_URL}/api/attachments/${id}`);
+  }
 }

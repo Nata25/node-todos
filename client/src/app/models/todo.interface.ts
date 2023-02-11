@@ -11,6 +11,7 @@ export interface ITodo extends ITodoBase {
 
 export interface ITodoDetails extends ITodoBase {
   details: string,
+  originalFileName: string,
 }
 
 export interface ITodoForm extends ITodoBase {
