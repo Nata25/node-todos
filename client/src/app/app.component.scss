@@ -24,10 +24,9 @@
 
 .todos-wrapper {
   position: sticky;
-  top: 73px;
   left: 0;
   flex: 1 0 50%;
-  height: calc(100vh - 73px);
+  height: calc(100vh - 60px);
   overflow: auto;
 }
 
