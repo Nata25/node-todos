@@ -27,8 +27,6 @@ h1, h2, h3, h4, h5, h6 {
   
   &::before {
     position: absolute;
-    top: 50%;
-    left: 15px;
     padding: 4px 7px;
     opacity: 0;
     font-size: 12px;
@@ -37,10 +35,27 @@ h1, h2, h3, h4, h5, h6 {
     color: vars.$c-white;
     border-radius: 3px;
     background-color: vars.$c-grey;
-    transform: translateX(-100%) translateY(-50%);
     transition: opacity 0.2s;
     white-space: nowrap;
     letter-spacing: 0.2px;
+  }
+
+  &.tooltip-top::before {
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &.tooltip-left::before {
+    top: 50%;
+    left: 15px;
+    transform: translateX(-100%) translateY(-50%);
+  }
+
+  &.tooltip-bottom::before {
+    bottom: -22px;
+    left: 50%;
+    transform: translate(-50%);
   }
 
   &:hover::before {

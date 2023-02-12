@@ -25,12 +25,6 @@ export class TodoListComponent extends SubscriptionsComponent implements OnInit 
     });
   }
 
-  goToEditTodo(id?: string): void {
-    if (id) {
-      this.router.navigate([`/details/${id}`]);
-    }
-  }
-
   deleteTodo(id?: string): void {
     if (id) {
       this.subscriptions['delete'] = this.todoService.deleteTodo(id).pipe(

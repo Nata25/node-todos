@@ -16,8 +16,7 @@
         </span>
         <span
           *ngIf="todo.hasAttachment"
-          (click)="goToEditTodo(todo._id)"
-          class="file-link with-tooltip"
+          class="file-link with-tooltip tooltip-bottom"
         >
           <img class="file-icon" src="/assets/paper-clip.svg"/>
         </span>
@@ -36,12 +35,12 @@
     <div class="buttons">
       <button
         *ngIf="!todo.isDone"
-        class="button done-marker with-tooltip"
+        class="button done-marker with-tooltip tooltip-left"
         (click)="markAsDone(todo._id)"
       >
         <span>&#x2713;</span>
       </button>
-      <button class="button delete-button with-tooltip" (click)="deleteTodo(todo._id)">
+      <button class="button delete-button with-tooltip tooltip-left" (click)="deleteTodo(todo._id)">
         <img class="delete-icon" src="/assets/trash.svg"/>
       </button>
     </div>
