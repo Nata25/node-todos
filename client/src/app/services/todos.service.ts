@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import { ITodo, ITodoDetails, ITodoForm } from '../models/todo.interface';
 import { IAttachment } from '../models/attachment.interface';
 import { ITodoWithAttachmentDTO } from '../models/todo-with-attachment-dto.interface';
+import { defaultSortingOptions, ISortingOptions } from '../models/sorting.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodosService {
 
-  $todos = new BehaviorSubject<ITodo[]>([]);
+  public $todos = new BehaviorSubject<ITodo[]>([]);
+  private sortParams = defaultSortingOptions;
 
   constructor(
     private readonly http: HttpClient,
@@ -26,8 +28,20 @@ export class TodosService {
     );
   }
 
+  setSortParams(params: ISortingOptions): void {
+    /* NOTE: need to save sorting params in the service as relying on browser query string is not save:
+    we have child route for details but need to show sorted list to the left and preserving query might look strange */
+    this.sortParams = params;
+  }
+
   getTodos(): Observable<ITodo[]> {
-    return this.http.get<ITodo[]>(`${environment.API_URL}/api/todos`).pipe(
+    let params = new HttpParams()
+      .append('sort', this.sortParams.sort)
+      .append('direction', this.sortParams.direction);
+
+    return this.http.get<ITodo[]>(`${environment.API_URL}/api/todos`, {
+      params
+    }).pipe(
       tap(data => {
         this.$todos.next(data);
       }),

@@ -1,18 +1,24 @@
 const staredTodos = [
   {
     username: 'User A',
-    todo: 'Buy bread',
+    todo: 'Groceries',
     isDone: false,
+    createdDate: new Date(),
+    dueDate: new Date(),
   },
   {
     username: 'User B',
     todo: 'Cook',
     isDone: false,
+    createdDate: new Date(),
+    dueDate: new Date(),
   },
   {
     username: 'User C',
     todo: 'Study',
     isDone: false,
+    createdDate: new Date(),
+    dueDate: new Date(),
   }
 ];
 

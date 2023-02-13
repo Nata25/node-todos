@@ -15,7 +15,7 @@ import { ITodoDetails } from '../../models/todo.interface';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent extends SubscriptionsComponent implements OnInit, OnChanges {
-  @Input() todo?: ITodoDetails;
+  @Input() todo: ITodoDetails | null = null;
   @Output() closed = new EventEmitter<void>();
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
 

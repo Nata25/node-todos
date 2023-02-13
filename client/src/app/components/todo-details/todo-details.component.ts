@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, map, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, filter, map, switchMap, tap } from 'rxjs';
 
 import { SubscriptionsComponent } from '../subscriptions.component';
 import { TodosService } from 'src/app/services/todos.service';
@@ -13,7 +13,7 @@ import { ITodoDetails } from 'src/app/models/todo.interface';
 })
 export class TodoDetailsComponent extends SubscriptionsComponent implements OnInit {
   isEditMode = false;
-  todo!: ITodoDetails;
+  todo$: BehaviorSubject<ITodoDetails | null> = new BehaviorSubject<ITodoDetails | null>(null);
   todoID!: string;
 
   constructor(
@@ -33,7 +33,7 @@ export class TodoDetailsComponent extends SubscriptionsComponent implements OnIn
       switchMap((id: string) => this.todoService.getTodoDetails(id)),
     )
       .subscribe((data: ITodoDetails) => {
-        this.todo = data;
+        this.todo$.next(data);
         this.isEditMode = false;
       });
 
@@ -42,26 +42,24 @@ export class TodoDetailsComponent extends SubscriptionsComponent implements OnIn
       switchMap(data => {
         const id = this.route.snapshot.params['id'];
         if (!data.find(todo => todo._id === id)) {
-          this.router.navigate(['/']);
+          this.router.navigate(['/'], { queryParamsHandling: 'merge' });
         }
         // update todo details
         return this.todoService.getTodoDetails(this.todoID);
       }),
     ).subscribe(data => {
-      this.todo = data;
+      this.todo$.next(data);
     });
   }
 
   deleteAttachment(): void {
-    if (this.todo) {
-      this.subscriptions['deleteAttachment'] = this.todoService.deleteAttachmentByTodoID(this.todo._id as string).pipe(
-        switchMap(() => this.todoService.getTodos()),
-        switchMap(() => this.todoService.getTodoDetails(this.todoID)),
-      )
-        .subscribe(todoDetails => {
-          this.todo = todoDetails;
-        });
-    }
+    this.subscriptions['deleteAttachment'] = this.todoService.deleteAttachmentByTodoID(this.todoID).pipe(
+      switchMap(() => this.todoService.getTodos()),
+      switchMap(() => this.todoService.getTodoDetails(this.todoID)),
+    )
+      .subscribe(todoDetails => {
+        this.todo$.next(todoDetails);
+      });
   }
 
   onClosed(): void {

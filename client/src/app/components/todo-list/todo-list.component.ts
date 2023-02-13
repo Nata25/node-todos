@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 
 import { ITodo } from 'src/app/models/todo.interface';
 import { TodosService } from 'src/app/services/todos.service';
+import { SortableKeys, SortDirection } from 'src/app/models/sorting.model';
 import { SubscriptionsComponent } from '../subscriptions.component';
 
 @Component({
@@ -13,10 +13,14 @@ import { SubscriptionsComponent } from '../subscriptions.component';
 })
 export class TodoListComponent extends SubscriptionsComponent implements OnInit {
   todos: ITodo[] = [];
+  activeSorting = SortableKeys.DUE_DATE;
+  activeSortDirection = SortDirection.DESC;
+
+  SortableKeys = SortableKeys;
+  SortDirection = SortDirection;
 
   constructor(
     private readonly todoService: TodosService,
-    private readonly router: Router,
   ) { super(); }
 
   ngOnInit(): void {
@@ -28,7 +32,7 @@ export class TodoListComponent extends SubscriptionsComponent implements OnInit 
   deleteTodo(id?: string): void {
     if (id) {
       this.subscriptions['delete'] = this.todoService.deleteTodo(id).pipe(
-        switchMap(() => this.todoService.getTodos())
+        switchMap(() => this.todoService.getTodos()),
       )
       .subscribe(todos => {
         this.todos = todos;
@@ -50,5 +54,19 @@ export class TodoListComponent extends SubscriptionsComponent implements OnInit 
         });
       }
     }
+  }
+
+  setSorting(query: SortableKeys): void {
+    if (this.activeSorting !== query) {
+      this.activeSorting = query;
+      this.activeSortDirection = SortDirection.DESC;
+    } else {
+      this.activeSortDirection = this.activeSortDirection === SortDirection.ASC ? SortDirection.DESC : SortDirection.ASC;
+    }
+    this.todoService.setSortParams({
+      sort: this.activeSorting,
+      direction: this.activeSortDirection,
+    });
+    this.subscriptions['sorting'] = this.todoService.getTodos().subscribe();
   }
 }
