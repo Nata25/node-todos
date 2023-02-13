@@ -19,6 +19,8 @@ module.exports = function(app) {
         isDone: data.isDone,
         hasAttachment: data.hasAttachment,
         username: data.username,
+        dueDate: data.dueDate,
+        createdDate: data.createdDate,
       };
       if (data.hasAttachment) {
         return Attachments.findOne({

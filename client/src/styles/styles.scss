@@ -79,6 +79,10 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.2px;
+
+  &[disabled] {
+    opacity: 0.4;
+  }
 }
 
 .close {
@@ -109,4 +113,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .green {
   color: vars.$c-green !important; // NOTE: important is ok here as we explicitly want to override any color from component styles
+}
+
+.dark-orange {
+  color: vars.$c-dark-orange !important; // NOTE: important is ok here as we explicitly want to override any color from component styles
 }

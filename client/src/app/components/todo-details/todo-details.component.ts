@@ -13,7 +13,7 @@ import { ITodoDetails } from 'src/app/models/todo.interface';
 })
 export class TodoDetailsComponent extends SubscriptionsComponent implements OnInit {
   isEditMode = false;
-  todo?: ITodoDetails;
+  todo!: ITodoDetails;
   todoID!: string;
 
   constructor(
@@ -34,9 +34,10 @@ export class TodoDetailsComponent extends SubscriptionsComponent implements OnIn
     )
       .subscribe((data: ITodoDetails) => {
         this.todo = data;
+        this.isEditMode = false;
       });
 
-    // Navigate from details page if current Todo was deleted
+    // Navigate from details page if current todo was deleted
     this.subscriptions['todos'] = this.todoService.$todos.pipe(
       switchMap(data => {
         const id = this.route.snapshot.params['id'];
@@ -61,5 +62,9 @@ export class TodoDetailsComponent extends SubscriptionsComponent implements OnIn
           this.todo = todoDetails;
         });
     }
+  }
+
+  onClosed(): void {
+    this.isEditMode = false;
   }
 }

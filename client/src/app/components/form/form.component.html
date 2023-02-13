@@ -2,14 +2,20 @@
   <form class="form" [formGroup]="todoForm">
     <div class="input-wrapper">
       <label>
-        <span class="label">Todo:</span>
+        <span class="label with-tooltip tooltip-top">Todo<sup>*</sup>:</span>
         <input autocomplete="off" formControlName="todo">
       </label>
     </div>
     <div class="input-wrapper">
       <label>
-        <span class="label">Assigned to:</span>
+        <span class="label with-tooltip tooltip-top">Assigned to<sup>*</sup>:</span>
         <input autocomplete="off" formControlName="username">
+      </label>
+    </div>
+    <div class="input-wrapper">
+      <label>
+        <span class="label with-tooltip tooltip-top">Due date:</span>
+        <input type="date" formControlName="dueDate">
       </label>
     </div>
     <div class="input-wrapper">
@@ -30,7 +36,6 @@
         <input #fileInput type="file" accept="text/plain" name="attachment">
       </label>
     </div>
-    <button class="button save-button" (click)="saveTodo()">Save Todo</button>
-    <button class="button cancel-button" (click)="onCancel()">Cancel</button>
+    <button [disabled]="todoForm.invalid" class="button save-button" (click)="saveTodo()">Save Todo</button>
   </form>
 </div>

@@ -16,6 +16,10 @@
 
     .label {
       flex: 0 0 100px;
+
+      &.with-tooltip::before {
+        content: 'Required field';
+      }
     }
   }
 
@@ -37,10 +41,5 @@
     margin-top: 10px;
     color: vars.$c-green;
     border-color: vars.$c-green;
-  }
-
-  .cancel-button {
-    color: vars.$c-red;
-    border-color: vars.$c-red;
   }
 }

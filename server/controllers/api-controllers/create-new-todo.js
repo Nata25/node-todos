@@ -9,11 +9,13 @@ module.exports = function(app, upload) {
       todo: {},
       attachment: {},
     };
-    const { todo, username, isDone } = req.body;
+    const { todo, username, dueDate, isDone } = req.body;
     const newTodo = Todos({
       todo,
       username,
       isDone,
+      dueDate,
+      createdDate: new Date(),
       hasAttachment: Boolean(req.file),
     });
     newTodo.save()

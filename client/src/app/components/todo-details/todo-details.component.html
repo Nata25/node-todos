@@ -6,7 +6,7 @@
     </a>
   </span>
   <div class="form-wrapper sidebar-content">
-    <h3 class="title">{{ todo?.todo }}</h3>
+    <h3 class="title">{{ todo.todo }}</h3>
     <ng-container *ngIf="isEditMode; else viewMode">
       <app-form [todo]="todo" (closed)="isEditMode = false"></app-form>
     </ng-container>
@@ -14,22 +14,35 @@
       <div class="todo-details">
         <p class="option">Assignee:
           <span class="username">
-            {{ todo?.username }}
+            {{ todo.username }}
           </span>
         </p>
         <p class="option">Status:
-          <span [ngClass]="{ green: todo?.isDone }">
-            {{ todo?.isDone ? 'done' : 'pending' }}
+          <span
+            class="status"
+            [ngClass]="{ green: todo.isDone, 'dark-orange': !todo.isDone }"
+          >
+            {{ todo.isDone ? 'done' : 'pending' }}
           </span>
         </p>
-        <ng-container *ngIf="todo?.details">
+        <p class="option">Created at:
+          <span>
+            {{ todo.createdDate | date }}
+          </span>
+        </p>
+        <p class="option">Due date:
+          <span>
+            {{ todo.dueDate | date }}
+          </span>
+        </p>
+        <ng-container *ngIf="todo.details">
           <p class="filename option">Original attachment file name:
-            <span class="label">{{ todo?.originalFileName }}</span>
+            <span class="label">{{ todo.originalFileName }}</span>
             <button class="button delete-button with-tooltip tooltip-top" (click)="deleteAttachment()">
               <img class="delete-icon" src="/assets/trash.svg"/>
             </button>
           </p>
-          <p>{{ todo?.details }}</p>
+          <p>{{ todo.details }}</p>
         </ng-container>
         <button class="button edit-button with-tooltip tooltip-top" (click)="isEditMode = true">
           <img class="edit-icon" src="/assets/edit.svg" />
@@ -37,4 +50,5 @@
       </div>
     </ng-template>
   </div>
+  <button *ngIf="isEditMode" class="button cancel-button" (click)="isEditMode = false">Cancel Editing</button>
 </div>

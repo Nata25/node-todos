@@ -90,9 +90,14 @@
     }
 
     .value {
-      font-size: 14px;
+      font-size: 12px;
       color: vars.$c-grey;
       font-weight: 600;
+      letter-spacing: 0.4px;
+
+      &.status {
+        text-transform: uppercase;
+      }
     }
   }
 

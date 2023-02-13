@@ -9,13 +9,14 @@ module.exports = function(app, upload) {
       todo: {},
       attachment: {},
     };
-    const { todo, username, isDone, _id, details } = req.body;
+    const { todo, username, isDone, dueDate, _id, details } = req.body;
     const hasAttachment = Boolean(req.file) || Boolean(details);
     Todos.findByIdAndUpdate({ _id }, {
       todo,
       username,
       isDone,
       hasAttachment,
+      dueDate,
     })
     .then(data => {
       todoDTO.todo = data;

@@ -1,3 +1,5 @@
+@use 'src/styles/vars.scss';
+
 .todo-details {
   position: relative;
 }
@@ -6,7 +8,8 @@
   font-size: 14px;
 }
 
-.username {
+.username,
+.status {
   font-weight: bold;
 }
 
@@ -48,4 +51,10 @@
   height: 15px;
   object-fit: contain;
   object-position: center;
+}
+
+.cancel-button {
+  margin-top: 20px;
+  color: vars.$c-red;
+  border-color: vars.$c-red;
 }

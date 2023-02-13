@@ -25,8 +25,18 @@
           <span class="value">{{ todo.username }}</span>
         </span>
         <span class="info-row">
+          <span class="label">Created at:</span>
+          <span class="value">{{ todo.createdDate | date }}</span>
+        </span>
+        <span *ngIf="todo.dueDate" class="info-row">
+          <span class="label">Due Date:</span>
+          <span class="value">{{ todo.dueDate | date }}</span>
+        </span>
+        <span class="info-row">
           <span class="label">Status:</span>
-          <span class="value status" [ngClass]="{ green: todo.isDone }">
+          <span
+            class="value status"
+            [ngClass]="{ green: todo.isDone, 'dark-orange': !todo.isDone }">
             {{ todo.isDone ? 'done' : 'pending' }}
           </span>
         </span>

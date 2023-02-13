@@ -39,6 +39,7 @@ export class TodosService {
     formData.append('username', todo.username);
     formData.append('todo', todo.todo);
     formData.append('isDone', todo.isDone.toString());
+    formData.append('dueDate', todo.dueDate);
     formData.append('attachment', todo.attachment);
     if (todo.details) {
       formData.append('details', todo.details);
