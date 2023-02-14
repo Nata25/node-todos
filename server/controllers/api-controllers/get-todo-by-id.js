@@ -10,34 +10,41 @@ module.exports = function(app) {
     })
     .then(data => {
       if (data === null) {
-        res.sendStatus(404);
-        return;
-      }
-      todoDetails = {
-        _id: data._id,
-        todo: data.todo,
-        isDone: data.isDone,
-        hasAttachment: data.hasAttachment,
-        username: data.username,
-        dueDate: data.dueDate,
-        createdDate: data.createdDate,
-      };
-      if (data.hasAttachment) {
-        return Attachments.findOne({
-          todoID: data._id,
-        });
+        return 404;
       } else {
-        return Attachments({ attachment: '' });
+        todoDetails = {
+          _id: data._id,
+          todo: data.todo,
+          isDone: data.isDone,
+          hasAttachment: data.hasAttachment,
+          username: data.username,
+          dueDate: data.dueDate,
+          createdDate: data.createdDate,
+        };
+        if (data.hasAttachment) {
+          return Attachments.findOne({
+            todoID: data._id,
+          });
+        } else {
+          return Attachments({ attachment: '' });
+        }
       }
     })
-    .then(attachment => {
-      if (attachment) {
-        todoDetails.details = attachment.attachment.toString();
-        todoDetails.originalFileName = attachment.metadata.originalname;
-      } else if (attachment === null) {
-        todoDetails.details = '[Attachment was deleted]';
-      };
-      res.send(todoDetails);
+    .then(data => {
+      if (data === 404) {
+        // NOTE: Todo not found scenario
+        res.sendStatus(404);
+      } else {
+        if (data) {
+          // NOTE: normal flow
+          todoDetails.details = data.attachment.toString();
+          todoDetails.originalFileName = data.metadata.originalname;
+        } else if (data === null) {
+          // NOTE: non common case of deleted attachment without modifying todo.hasAttachment property
+          todoDetails.details = '[Attachment was deleted]';
+        };
+        res.send(todoDetails);
+      }
     })
     .catch(e => {
       console.log(e);

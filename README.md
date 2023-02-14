@@ -14,5 +14,5 @@ Learning challenge (in progress).
 - [x] The content of TXT file attached to the todo is displayed on details page. 
 - [x] User can edit todo from details page, i.e. change the title, mark as done/pending, delete or replace attachment.
 - [x] If todo is deleted, corresponding attachment is deleted as well.
-- [ ] User can set and change the todo's creation date/due date.
-- [ ] Todos are sorted by date in the list.
+- [x] User can set and change the todo's creation date/due date.
+- [x] Todos in the list are sortable by date created, due date or todo name.

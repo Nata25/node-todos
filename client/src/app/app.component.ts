@@ -25,7 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
       take(1)
     ).subscribe();
 
-    this.subscriptions['todos'] = this.todoService.$todos.subscribe(data => {
+    this.subscriptions['todos'] = this.todoService.todos$.subscribe(data => {
       this.todos = data;
     });
   }

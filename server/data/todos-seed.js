@@ -5,6 +5,7 @@ const staredTodos = [
     isDone: false,
     createdDate: new Date(),
     dueDate: new Date(),
+    hasAttachment: false,
   },
   {
     username: 'User B',
@@ -12,6 +13,7 @@ const staredTodos = [
     isDone: false,
     createdDate: new Date(),
     dueDate: new Date(),
+    hasAttachment: false,
   },
   {
     username: 'User C',
@@ -19,6 +21,7 @@ const staredTodos = [
     isDone: false,
     createdDate: new Date(),
     dueDate: new Date(),
+    hasAttachment: false,
   }
 ];
 

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { switchMap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 
 import { ITodo } from 'src/app/models/todo.interface';
 import { TodosService } from 'src/app/services/todos.service';
-import { SortableKeys, SortDirection } from 'src/app/models/sorting.model';
+import { SortableKeys, SortDirection, defaultSortingOptions } from 'src/app/models/sorting.model';
 import { SubscriptionsComponent } from '../subscriptions.component';
 
 @Component({
@@ -13,8 +13,8 @@ import { SubscriptionsComponent } from '../subscriptions.component';
 })
 export class TodoListComponent extends SubscriptionsComponent implements OnInit {
   todos: ITodo[] = [];
-  activeSorting = SortableKeys.DUE_DATE;
-  activeSortDirection = SortDirection.DESC;
+  activeSorting = defaultSortingOptions.sort;
+  activeSortDirection = defaultSortingOptions.direction;
 
   SortableKeys = SortableKeys;
   SortDirection = SortDirection;
@@ -24,35 +24,31 @@ export class TodoListComponent extends SubscriptionsComponent implements OnInit 
   ) { super(); }
 
   ngOnInit(): void {
-    this.subscriptions['todos'] = this.todoService.$todos.subscribe(data => {
+    this.subscriptions['todos'] = this.todoService.todos$.subscribe(data => {
       this.todos = data;
     });
   }
 
-  deleteTodo(id?: string): void {
-    if (id) {
-      this.subscriptions['delete'] = this.todoService.deleteTodo(id).pipe(
-        switchMap(() => this.todoService.getTodos()),
+  deleteTodo(id: string): void {
+    this.subscriptions['delete'] = this.todoService.deleteTodo(id).pipe(
+      switchMap(() => this.todoService.getTodos()),
+    )
+    .subscribe((todos: ITodo[]) => {
+      this.todos = todos;
+    });
+  }
+
+  markAsDone(id: string): void {
+    const todo = this.todos.find(todo => todo._id === id);
+    if (todo) {
+      this.subscriptions['update'] = this.todoService.updateTodo(id, {
+        isDone: true,
+      }).pipe(
+        switchMap(() => this.todoService.getTodos())
       )
       .subscribe(todos => {
         this.todos = todos;
       });
-    }
-  }
-
-  markAsDone(id?: string): void {
-    if (id) {
-      const todo = this.todos.find(todo => todo._id === id);
-      if (todo) {
-        this.subscriptions['update'] = this.todoService.updateTodo(id, {
-          isDone: true,
-        }).pipe(
-          switchMap(() => this.todoService.getTodos())
-        )
-        .subscribe(todos => {
-          this.todos = todos;
-        });
-      }
     }
   }
 

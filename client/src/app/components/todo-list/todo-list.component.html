@@ -3,45 +3,36 @@
   <div class="sorting-options">
     <button
       class="sorting-header"
-      [ngClass]="{ active: activeSorting === SortableKeys.DUE_DATE }"
-      (click)="setSorting(SortableKeys.DUE_DATE)"
-    >
-      Due Date
-      <span
-        *ngIf="activeSorting === SortableKeys.DUE_DATE"
-        class="arrow"
-        [ngClass]="{ rotated: activeSortDirection === SortDirection.DESC}"
-      >
-        &#8593;
-      </span>
-    </button>
-    <button
-      class="sorting-header"
       [ngClass]="{ active: activeSorting === SortableKeys.DATE_CREATED }"
       (click)="setSorting(SortableKeys.DATE_CREATED)"
-    >
-      Created Date
+    >Created Date
       <span
         *ngIf="activeSorting === SortableKeys.DATE_CREATED"
         class="arrow"
         [ngClass]="{ rotated: activeSortDirection === SortDirection.DESC}"
-      >
-        &#8593;
-      </span>
+      >&#8593;</span>
+    </button>
+    <button
+      class="sorting-header"
+      [ngClass]="{ active: activeSorting === SortableKeys.DUE_DATE }"
+      (click)="setSorting(SortableKeys.DUE_DATE)"
+    >Due Date
+      <span
+        *ngIf="activeSorting === SortableKeys.DUE_DATE"
+        class="arrow"
+        [ngClass]="{ rotated: activeSortDirection === SortDirection.DESC}"
+      >&#8593;</span>
     </button>
     <button
       class="sorting-header"
       [ngClass]="{ active: activeSorting === SortableKeys.TODO }"
       (click)="setSorting(SortableKeys.TODO)"
-    >
-      Todo label
+    >Todo label
       <span
         *ngIf="activeSorting === SortableKeys.TODO"
         class="arrow"
         [ngClass]="{ rotated: activeSortDirection === SortDirection.DESC}"
-      >
-        &#8593;
-      </span>
+      >&#8593;</span>
     </button>
   </div>
 </div>

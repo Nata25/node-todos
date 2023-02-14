@@ -15,6 +15,6 @@ export interface ISortingOptions {
 }
 
 export const defaultSortingOptions: ISortingOptions = {
-  sort: SortableKeys.DUE_DATE,
+  sort: SortableKeys.DATE_CREATED,
   direction: SortDirection.DESC,
 }

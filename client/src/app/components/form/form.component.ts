@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 
 import { parseDateForDatepicker } from 'src/app/utils/parse-date';
 import { TodosService } from 'src/app/services/todos.service';
@@ -58,8 +58,9 @@ export class FormComponent extends SubscriptionsComponent implements OnInit, OnC
 
   saveTodo(): void {
     if (this.subscriptions['saveTodo']) this.subscriptions['saveTodo'].unsubscribe();
+    const todoID = this.route.snapshot.params['id'];
     this.subscriptions['saveTodo'] = this.todoService.saveTodo({
-      _id: this.route.snapshot.params['id'],
+      _id: todoID,
       username: this.todoForm.controls['username'].value,
       todo: this.todoForm.controls['todo'].value,
       isDone: this.todoForm.controls['isDone'].value,
@@ -67,7 +68,7 @@ export class FormComponent extends SubscriptionsComponent implements OnInit, OnC
       dueDate: this.todoForm.controls['dueDate'].value,
       attachment: this.fileInput.nativeElement.files[0],
     }).pipe(
-      switchMap(() => this.todoService.getTodos())
+      switchMap(() => this.todoService.getTodos()),
     ).subscribe(() => {
       this.todoForm.patchValue({
         username: '',

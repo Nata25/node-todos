@@ -7,13 +7,22 @@ import { ITodo, ITodoDetails, ITodoForm } from '../models/todo.interface';
 import { IAttachment } from '../models/attachment.interface';
 import { ITodoWithAttachmentDTO } from '../models/todo-with-attachment-dto.interface';
 import { defaultSortingOptions, ISortingOptions } from '../models/sorting.model';
+import { TodoAction, ITodoActionTrigger } from '../models/todo-action.enum';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodosService {
 
-  public $todos = new BehaviorSubject<ITodo[]>([]);
+  public todos$ = new BehaviorSubject<ITodo[]>([]);
+  /* NOTE: used to update todo details after changes syncronously with backend.
+  Should emit after individual todo was updated/removed.
+  Then we can look for the recent todo data in DB to update TodoDetails, which is lisneting for this subject. */
+  public todoUpdate$ = new BehaviorSubject<ITodoActionTrigger>({ id: '' });
+
+  /* NOTE: save sorting params in the service because relying on browser query string is not safe:
+  we have child route for details but need to show sorted list to the left at the same time
+  and preserving todo list query along with :todoID in route might look strange. */
   private sortParams = defaultSortingOptions;
 
   constructor(
@@ -23,14 +32,12 @@ export class TodosService {
   setupInitialData(): Observable<ITodo[]> {
     return this.http.get<ITodo[]>(`${environment.API_URL}/api/todos/setup`).pipe(
       tap(data => {
-        this.$todos.next(data);
+        this.todos$.next(data);
       })
     );
   }
 
   setSortParams(params: ISortingOptions): void {
-    /* NOTE: need to save sorting params in the service as relying on browser query string is not save:
-    we have child route for details but need to show sorted list to the left and preserving query might look strange */
     this.sortParams = params;
   }
 
@@ -43,7 +50,7 @@ export class TodosService {
       params
     }).pipe(
       tap(data => {
-        this.$todos.next(data);
+        this.todos$.next(data);
       }),
     );
   }
@@ -59,18 +66,26 @@ export class TodosService {
       formData.append('details', todo.details);
     }
     if (todo._id) {
-      // update existing todo from form
+      // Update existing todo from form
       formData.append('_id', (todo._id as string));
-      return this.http.put<ITodoWithAttachmentDTO>(`${environment.API_URL}/api/todos`, formData);
+      return this.http.put<ITodoWithAttachmentDTO>(`${environment.API_URL}/api/todos`, formData).pipe(
+        tap(() => {
+          this.todoUpdate$.next({ id: todo._id as string, action: TodoAction.UPDATE });
+        }),
+      )
     } else {
-      // add new todo
+      // Add new todo
       return this.http.post<ITodoWithAttachmentDTO>(`${environment.API_URL}/api/todos`, formData);
     }
   }
 
-  // simple update, no form
+  // Simple update, no form data
   updateTodo(todoID: string, params: { [key: string]: unknown }): Observable<ITodo> {
-    return this.http.put<ITodo>(`${environment.API_URL}/api/todos/${todoID}`, params);
+    return this.http.put<ITodo>(`${environment.API_URL}/api/todos/${todoID}`, params).pipe(
+      tap(() => {
+        this.todoUpdate$.next({ id: todoID, action: TodoAction.UPDATE });
+      }),
+    );
   }
 
   getTodoDetails(id: string): Observable<ITodoDetails> {
@@ -78,7 +93,11 @@ export class TodosService {
   }
 
   deleteTodo(id: string): Observable<ITodo> {
-    return this.http.delete<ITodo>(`${environment.API_URL}/api/todos/${id}`);
+    return this.http.delete<ITodo>(`${environment.API_URL}/api/todos/${id}`).pipe(
+      tap(() => {
+        this.todoUpdate$.next({ id, action: TodoAction.DELETE });
+      }),
+    );
   }
 
   getAttachmentByTodoID(id: string): Observable<IAttachment> {

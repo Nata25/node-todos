@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, filter, map, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, catchError, filter, map, of, switchMap, tap } from 'rxjs';
 
-import { SubscriptionsComponent } from '../subscriptions.component';
 import { TodosService } from 'src/app/services/todos.service';
 import { ITodoDetails } from 'src/app/models/todo.interface';
+import { TodoAction } from 'src/app/models/todo-action.enum';
+import { SubscriptionsComponent } from '../subscriptions.component';
 
 @Component({
   selector: 'app-todo-details',
@@ -31,24 +32,34 @@ export class TodoDetailsComponent extends SubscriptionsComponent implements OnIn
         this.todoID = id;
       }),
       switchMap((id: string) => this.todoService.getTodoDetails(id)),
+      catchError(error => of(error.status)),
     )
-      .subscribe((data: ITodoDetails) => {
-        this.todo$.next(data);
-        this.isEditMode = false;
+      .subscribe((data: ITodoDetails | null) => {
+        if (typeof data === 'number' && data === 404) {
+          this.router.navigate(['/']);
+        } else if (typeof data !== 'number') {
+          this.todo$.next(data);
+          this.isEditMode = false;
+        }
       });
 
-    // Navigate from details page if current todo was deleted
-    this.subscriptions['todos'] = this.todoService.$todos.pipe(
-      switchMap(data => {
-        const id = this.route.snapshot.params['id'];
-        if (!data.find(todo => todo._id === id)) {
-          this.router.navigate(['/'], { queryParamsHandling: 'merge' });
+    this.subscriptions['todos'] = this.todoService.todoUpdate$.pipe(
+      switchMap(todoChange => {
+        // NOTE: do something only if changes apply to the current TODO
+        if (todoChange.id === this.todoID) {
+          if (todoChange.action === TodoAction.DELETE) {
+            return of(TodoAction.DELETE); // need any truthy value to indicate deletion on the following step
+          } else return this.todoService.getTodoDetails(this.todoID);
         }
-        // update todo details
-        return this.todoService.getTodoDetails(this.todoID);
+        return of(null);
       }),
-    ).subscribe(data => {
-      this.todo$.next(data);
+      ).subscribe(data => {
+        if (data === TodoAction.DELETE) {
+          this.router.navigate(['/']);
+        } else if (data) {
+        // Update todo details
+          this.todo$.next(data as ITodoDetails);
+        }
     });
   }
 
@@ -60,9 +71,5 @@ export class TodoDetailsComponent extends SubscriptionsComponent implements OnIn
       .subscribe(todoDetails => {
         this.todo$.next(todoDetails);
       });
-  }
-
-  onClosed(): void {
-    this.isEditMode = false;
   }
 }
