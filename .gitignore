@@ -4,8 +4,9 @@
 
 server/config/config.json
 server/uploads/
+server/views
 client/.angular
-client/dist
+client/static
 
 # Node
 
