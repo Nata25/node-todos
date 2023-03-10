@@ -10,7 +10,7 @@ const todosApi = require('./controllers/api-controllers');
 const app = express();
 setCache(app);
 
-app.use(serveStatic('views'));
+app.use(serveStatic('public'));
 mongoose.connect(...config.getDbConnectionParams());
 setupTodos(app);
 todosApi(app);

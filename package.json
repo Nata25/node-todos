@@ -8,9 +8,9 @@
     "dev:client": "cd client && npm start",
     "dev": "run-p dev:server dev:client",
     "build-client": "cd client && npm run build && cd ..",
-    "update-views": "cp -r client/static/* server/views",
+    "update-public": "cp -r client/static/* server/public",
     "run-server": "cd server && node app.js",
-    "deploy": "run-s build-client update-views run-server"
+    "deploy": "run-s build-client update-public run-server"
   },
   "author": "",
   "license": "ISC",

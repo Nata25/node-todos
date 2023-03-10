@@ -6,7 +6,6 @@ server/config/config.json
 server/uploads/
 server/views
 client/.angular
-client/static
 
 # Node
 
