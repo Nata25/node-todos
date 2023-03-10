@@ -34,3 +34,7 @@ npm run deploy
 ```
 
 For more options (like run node server in `inspect` mode or build Angular app with `--watch`), it is recommended to launch BE and FE parts in separate terminal windows and use the scripts from the corresponding folders, i.e. **/server** or **/cilent**.
+
+### Branches
+
+TBD
