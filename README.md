@@ -37,4 +37,4 @@ For more options (like run node server in `inspect` mode or build Angular app wi
 
 ### Branches
 
-TBD
+Default / deployment branch: `deploy`
