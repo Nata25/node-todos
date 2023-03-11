@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1",
   "name": "todo-app-node-angular",
   "builds": [
      { "src": "server/app.js", "use": "@vercel/node" }
