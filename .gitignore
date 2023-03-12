@@ -7,6 +7,9 @@ server/uploads/
 server/views
 client/.angular
 
+# DB config
+server/.env
+
 # Node
 
 npm-debug.log
